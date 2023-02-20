@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+    container_name: tuzach_nginx
+    ports:
+      - 443:443
+    depends_on:
+      - frontend
+
+  frontend:
+    build:
+      context: ./docker/frontend
+    container_name: tuzach_frontend
