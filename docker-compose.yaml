@@ -3,7 +3,7 @@ services:
   nginx:
     build:
       context: ./docker/nginx
-    container_name: tuzach_nginx
+    container_name: ace_nginx
     ports:
       - 443:443
     depends_on:
@@ -12,4 +12,31 @@ services:
   frontend:
     build:
       context: ./docker/frontend
-    container_name: tuzach_frontend
+    container_name: ace_frontend
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./docker/backend
+    container_name: ace_backend
+    depends_on:
+      - db_init
+
+  db_init:
+    build:
+      context: ./docker/db_init
+    container_name: ace_db_init
+    depends_on:
+      - db
+
+  db:
+    env_file: ./docker/db/.env
+    image: postgres:12
+    container_name: ace_db
+    volumes:
+      - db_home:/var/lib/postgresql/data
+
+volumes:
+  db_home:
+    external: false

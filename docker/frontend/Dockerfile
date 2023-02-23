@@ -6,9 +6,9 @@ RUN apt install -y python3-pip git curl
 
 RUN pip3 install supervisor
 
-RUN mkdir /var/log/tuzach
+RUN mkdir /var/log/ace
 
-RUN git clone https://github.com/kokokostation/ace-rx.git /root/tuzach_frontend
+RUN git clone https://github.com/kokokostation/ace-rx.git /root/ace_frontend
 
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 
@@ -22,7 +22,7 @@ RUN source $NVM_DIR/nvm.sh \
 ENV NODE_PATH $NVM_DIR/$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
-RUN cd /root/tuzach_frontend && npm install && npm run build
+RUN cd /root/ace_frontend && npm install && npm run build
 RUN npm install -g serve
 
 COPY supervisor.conf /root/supervisor.conf
