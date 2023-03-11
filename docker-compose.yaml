@@ -21,22 +21,32 @@ services:
       context: ./docker/backend
     container_name: ace_backend
     depends_on:
-      - db_init
+      - pg_init
+      - redis
 
-  db_init:
+  pg_init:
     build:
-      context: ./docker/db_init
-    container_name: ace_db_init
+      context: ./docker/pg_init
+    container_name: ace_pg_init
     depends_on:
-      - db
+      - pg
 
-  db:
-    env_file: ./docker/db/.env
+  pg:
+    env_file: ./docker/pg/.env
     image: postgres:12
-    container_name: ace_db
+    container_name: ace_pg
     volumes:
-      - db_home:/var/lib/postgresql/data
+      - pg_home:/var/lib/postgresql/data
+
+  redis:
+    build:
+      context: ./docker/redis
+    container_name: ace_redis
+    volumes:
+      - redis_home:/data
 
 volumes:
-  db_home:
+  pg_home:
+    external: false
+  redis_home:
     external: false
